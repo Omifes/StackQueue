@@ -5,7 +5,9 @@
 #include <exception>
 #include <iostream>
 
-class StackOverflow : public std::exception
+using namespace std;
+
+class StackOverflow : public exception
 {
 public:
     const char* what() const noexcept override
@@ -14,7 +16,7 @@ public:
     }
 };
 
-class StackUnderflow : public std::exception
+class StackUnderflow : public exception
 {
 public:
     const char* what() const noexcept override
@@ -23,7 +25,7 @@ public:
     }
 };
 
-class WrongStackSize : public std::exception
+class WrongStackSize : public exception
 {
 public:
     const char* what() const noexcept override
@@ -36,12 +38,12 @@ template <class T>
 class StackArray : public Stack<T>
 {
 private:
-    size_t size;
+    int size;
     int top;
     T* stack;
 
 public:
-    StackArray(size_t size) : size(size), top(-1) {
+    StackArray(int size) : size(size), top(-1) {
         if (size <= 0) {
             throw WrongStackSize();
         }
@@ -52,11 +54,11 @@ public:
         delete[] stack;
     }
     
-    void push(const T& e) override {
+    void push(const T& element) override {
         if (isFull()) {
             throw StackOverflow();
         }
-        stack[++top] = e;
+        stack[++top] = element;
     }
     
     T pop() override {
@@ -84,8 +86,8 @@ bool checkBalanceBrackets(const char* text, const int maxDeep) {
         if (currentChar == '(' || currentChar == '[' || currentChar == '{') {
             try {
                 stack.push(currentChar);
-            } catch (const StackOverflow& e) {
-                std::cerr << e.what() << std::endl;
+            } catch (const StackOverflow& element) {
+                cerr << element.what() << endl;
                 return false;
             }
         } 
@@ -97,8 +99,8 @@ bool checkBalanceBrackets(const char* text, const int maxDeep) {
             char topChar;
             try {
                 topChar = stack.pop();
-            } catch (const StackUnderflow& e) {
-                std::cerr << e.what() << std::endl;
+            } catch (const StackUnderflow& element) {
+                cerr << element.what() << endl;
                 return false;
             }
 

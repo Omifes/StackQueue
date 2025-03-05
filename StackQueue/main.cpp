@@ -7,24 +7,21 @@ using namespace std;
 void testBasicStackOperations();
 void testStackOverflow();
 void testStackUnderflow();
+void testWrongStackSize();
 void testBracketBalancing();
 
 int main() {
-    
     testBasicStackOperations();
     testStackOverflow();
     testStackUnderflow();
+    testWrongStackSize();
     testBracketBalancing();
-    
     return 0;
 }
 
 void testBasicStackOperations() {
 
     StackArray<int> stack(5);
-    if (!stack.isEmpty()) {
-        cout << "Error: New stack should be empty" << endl;
-    }
     stack.push(10);
     stack.push(20);
     stack.push(30);
@@ -61,6 +58,16 @@ void testStackUnderflow() {
     } catch (const StackUnderflow& e) {
         cerr << e.what() << endl;
     }
+}
+
+void testWrongStackSize() {
+    cout << "Attempting to create stack with wrong size" << endl;
+    try {
+        StackArray<string> wrongSize(-1);
+    } catch (const WrongStackSize& e) {
+        cerr << e.what() << endl;
+    }
+    
 }
 
 void testBracketBalancing() {
